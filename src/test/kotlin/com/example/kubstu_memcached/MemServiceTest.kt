@@ -6,14 +6,12 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import java.io.IOException
-
 
 @SpringBootTest
 class MemServiceTest {
 
     @Autowired
-    lateinit var memService: MemService
+    lateinit var memService: MemService<String>
 
     @BeforeEach
     fun clearMemory() {

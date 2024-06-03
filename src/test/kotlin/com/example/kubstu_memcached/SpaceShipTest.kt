@@ -1,20 +1,19 @@
 package com.example.kubstu_memcached
 
 import com.example.kubstu_memcached.models.SpaceShip
-import com.example.kubstu_memcached.services.SpaceShipMemService
+import com.example.kubstu_memcached.services.MemService
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import java.io.IOException
 
 
 @SpringBootTest
-internal class SpaceShipMemServiceTest {
+internal class SpaceShipTest {
 
     @Autowired
-    lateinit var spaceshipMemService: SpaceShipMemService
+    lateinit var spaceshipMemService: MemService<SpaceShip>
 
     @BeforeEach
     fun clearMemory() {
@@ -26,8 +25,8 @@ internal class SpaceShipMemServiceTest {
         val key = "myship2"
         val spaceShip = SpaceShip("Pyramid", "Mike", 55)
 
-        spaceshipMemService.pushKeySpaceShip(key, spaceShip)
-        val fetchedSpaceShip: SpaceShip? = spaceshipMemService.getSpaceShip(key)
+        spaceshipMemService.pushKeyValue(key, spaceShip)
+        val fetchedSpaceShip: SpaceShip? = spaceshipMemService.getValueFromKey(key)
 
         assertEquals(spaceShip, fetchedSpaceShip)
     }
@@ -35,7 +34,7 @@ internal class SpaceShipMemServiceTest {
     @Test
     fun `try to get non-existing space ship test`() {
         val key = "nonExistentKey"
-        val fetchedSpaceShip: SpaceShip? = spaceshipMemService.getSpaceShip(key)
+        val fetchedSpaceShip: SpaceShip? = spaceshipMemService.getValueFromKey(key)
 
         assertNull(fetchedSpaceShip)
     }
@@ -45,14 +44,14 @@ internal class SpaceShipMemServiceTest {
         val key = "myship2"
         val spaceShip = SpaceShip("Pyramid", "Mike", 55)
 
-        spaceshipMemService.pushKeySpaceShip(key, spaceShip)
-        val fetchedSpaceShip: SpaceShip? = spaceshipMemService.getSpaceShip(key)
+        spaceshipMemService.pushKeyValue(key, spaceShip)
+        val fetchedSpaceShip: SpaceShip? = spaceshipMemService.getValueFromKey(key)
         assertEquals(spaceShip, fetchedSpaceShip)
 
-        val deleteResult = spaceshipMemService.deleteSpaceShipFromCache(key)
+        val deleteResult = spaceshipMemService.deleteValueFromCache(key)
         assertTrue(deleteResult)
 
-        val deletedSpaceShip: SpaceShip? = spaceshipMemService.getSpaceShip(key)
+        val deletedSpaceShip: SpaceShip? = spaceshipMemService.getValueFromKey(key)
         assertNull(deletedSpaceShip)
     }
 
@@ -63,18 +62,18 @@ internal class SpaceShipMemServiceTest {
         val key2 = "myship2"
         val spaceShip2 = SpaceShip("Falcon", "Sarah", 40)
 
-        spaceshipMemService.pushKeySpaceShip(key1, spaceShip1)
-        spaceshipMemService.pushKeySpaceShip(key2, spaceShip2)
+        spaceshipMemService.pushKeyValue(key1, spaceShip1)
+        spaceshipMemService.pushKeyValue(key2, spaceShip2)
 
-        val fetchedSpaceShip1: SpaceShip? = spaceshipMemService.getSpaceShip(key1)
-        val fetchedSpaceShip2: SpaceShip? = spaceshipMemService.getSpaceShip(key2)
+        val fetchedSpaceShip1: SpaceShip? = spaceshipMemService.getValueFromKey(key1)
+        val fetchedSpaceShip2: SpaceShip? = spaceshipMemService.getValueFromKey(key2)
 
         assertEquals(spaceShip1, fetchedSpaceShip1)
         assertEquals(spaceShip2, fetchedSpaceShip2)
 
         spaceshipMemService.clearCache()
 
-        assertNull(spaceshipMemService.getSpaceShip(key1))
-        assertNull(spaceshipMemService.getSpaceShip(key2))
+        assertNull(spaceshipMemService.getValueFromKey(key1))
+        assertNull(spaceshipMemService.getValueFromKey(key2))
     }
 }

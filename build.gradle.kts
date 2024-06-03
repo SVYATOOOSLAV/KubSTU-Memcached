@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -28,14 +30,12 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	// https://mvnrepository.com/artifact/net.spy/spymemcached
 	implementation("net.spy:spymemcached:2.12.3")
 	testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
-	// https://mvnrepository.com/artifact/org.projectlombok/lombok
-	compileOnly("org.projectlombok:lombok")
-	annotationProcessor("org.projectlombok:lombok")
+	testImplementation("ch.qos.logback:logback-classic:1.5.6")
+	implementation("org.slf4j:slf4j-api:2.0.13")
+	implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.withType<KotlinCompile> {
