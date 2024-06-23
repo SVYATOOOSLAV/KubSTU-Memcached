@@ -1,6 +1,6 @@
 package com.example.kubstu_memcached.integrationTest
 
-import com.example.kubstu_memcached.services.MemService
+import com.example.kubstu_memcached.service.MemService
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.BeforeEach

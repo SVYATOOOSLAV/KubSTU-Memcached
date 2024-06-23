@@ -38,6 +38,10 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	// https://mvnrepository.com/artifact/io.kotest/kotest-runner-junit5-jvm
 	testImplementation("io.kotest:kotest-runner-junit5-jvm:5.9.1")
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.3.1")
+	// https://mvnrepository.com/artifact/org.postgresql/postgresql
+	implementation("org.postgresql:postgresql:42.7.3")
 }
 
 tasks.withType<KotlinCompile> {

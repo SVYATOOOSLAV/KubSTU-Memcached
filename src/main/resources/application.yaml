@@ -1,6 +1,20 @@
 spring:
   application:
-  name: kubstu-memcached
+    name: kubstu-memcached
+  datasource:
+    url: jdbc:postgresql://localhost:5433/postgreSQL
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    properties:
+      hibernate:
+        format-sql: true
 
 app:
   cache:

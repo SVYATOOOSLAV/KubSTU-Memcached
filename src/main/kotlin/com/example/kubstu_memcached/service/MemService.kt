@@ -1,4 +1,4 @@
-package com.example.kubstu_memcached.services
+package com.example.kubstu_memcached.service
 
 import com.example.kubstu_memcached.configuration.KubstuMemcachedConf
 import mu.KotlinLogging
@@ -20,25 +20,31 @@ class MemService<T>(
     private lateinit var mcc: MemcachedClient
 
     init {
-        logger.debug("Connection to server successfully")
+        logger.info("Connection to Memcached successfully")
     }
 
     fun pushKeyValue(key: String, value: T) {
         val action = mcc.set(key, kubstuMemcachedConf.expirationTime, value).get()
         val done = if (action) "completed" else "not completed"
-        logger.debug { "$key and $value have been sent to memcahed with status $done" }
+        logger.info { "Key:$key and Value:$value have been sent to memcahed with status $done" }
     }
 
     fun getValueByKey(key: String): T? {
-        logger.debug { "Trying to get value from memcached by key: $key" }
+        logger.info { "Trying to get value from memcached by key: $key" }
+
         val value = mcc[key] as T?
-        logger.debug { "Successfully got value: $value by key: $key" }
+        if(value == null){
+            logger.info { "Value not found by key: $key" }
+        }
+        else{
+            logger.info { "Successfully got value from Memcached: $value by key: $key" }
+        }
 
         return value
     }
 
     fun deleteValueFromCache(key: String): Boolean {
-        logger.debug { "Trying to remove value from memcached by key: $key" }
+        logger.info { "Trying to remove value from memcached by key: $key" }
         val flag = mcc.delete(key).get()
         logger.debug { "Successfully removed value by key: $key" }
 
@@ -46,7 +52,7 @@ class MemService<T>(
     }
 
     fun clearCache() {
-        logger.debug { "Removed all caches" }
+        logger.info { "Removed all caches" }
         mcc.flush()
     }
 }
