@@ -8,5 +8,5 @@ import java.net.InetSocketAddress
 @Configuration
 class MemcachedConf {
     @Bean
-    fun getMemcachedClient() = MemcachedClient(InetSocketAddress("127.0.0.1", 11211))
+    fun getMemcachedClient() = MemcachedClient(InetSocketAddress("127.0.0.1", 11210))
 }

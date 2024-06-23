@@ -1,7 +1,7 @@
 package com.example.kubstu_memcached.integrationTest
 
-import com.example.kubstu_memcached.models.SpaceShip
-import com.example.kubstu_memcached.services.MemService
+import com.example.kubstu_memcached.model.SpaceShip
+import com.example.kubstu_memcached.service.MemService
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.BeforeEach
@@ -24,7 +24,7 @@ internal class SpaceShipTest {
     @Test
     fun `push and get space ship test`() {
         val key = "myship2"
-        val spaceShip = SpaceShip("Pyramid", "Mike", 55)
+        val spaceShip = SpaceShip(model = "Pyramid", captain = "Mike", fuel = 55)
 
         spaceshipMemService.pushKeyValue(key, spaceShip)
         val fetchedSpaceShip: SpaceShip? = spaceshipMemService.getValueByKey(key)
@@ -47,7 +47,7 @@ internal class SpaceShipTest {
     @Test
     fun `delete space ship from cache test`() {
         val key = "myship2"
-        val spaceShip = SpaceShip("Pyramid", "Mike", 55)
+        val spaceShip = SpaceShip(model = "Pyramid", captain = "Mike", fuel = 55)
 
         spaceshipMemService.pushKeyValue(key, spaceShip)
         val fetchedSpaceShip: SpaceShip? = spaceshipMemService.getValueByKey(key)
@@ -66,9 +66,9 @@ internal class SpaceShipTest {
     @Test
     fun `clear cache test`() {
         val key1 = "myship1"
-        val spaceShip1 = SpaceShip("Pyramid", "Mike", 55)
+        val spaceShip1 = SpaceShip(model = "Pyramid", captain = "Mike", fuel = 55)
         val key2 = "myship2"
-        val spaceShip2 = SpaceShip("Falcon", "Sarah", 40)
+        val spaceShip2 = SpaceShip(model = "Falcon", captain = "Sarah", fuel = 40)
 
         spaceshipMemService.pushKeyValue(key1, spaceShip1)
         spaceshipMemService.pushKeyValue(key2, spaceShip2)

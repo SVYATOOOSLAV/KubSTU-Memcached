@@ -1,0 +1,20 @@
+services:
+  postresqlDB:
+    container_name: postgresKubSTU
+    image: postgres:16
+    environment:
+      POSTGRES_DB: postgreSQL
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./database/pgdata:/var/lib/postgresql/data
+      - ./database/dbScripts:/docker-entrypoint-initdb.d
+    ports:
+      - "5433:5432"
+    restart: always
+
+  memcachedDB:
+    container_name: memcachedKubSTU
+    image: memcached:latest
+    ports:
+      - "11210:11211"
