@@ -36,6 +36,8 @@ dependencies {
 	implementation("org.slf4j:slf4j-api:2.0.13")
 	implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	// https://mvnrepository.com/artifact/io.kotest/kotest-runner-junit5-jvm
+	testImplementation("io.kotest:kotest-runner-junit5-jvm:5.9.1")
 }
 
 tasks.withType<KotlinCompile> {

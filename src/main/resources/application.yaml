@@ -1,0 +1,7 @@
+spring:
+  application:
+  name: kubstu-memcached
+
+app:
+  cache:
+    expirationTime: 60000
