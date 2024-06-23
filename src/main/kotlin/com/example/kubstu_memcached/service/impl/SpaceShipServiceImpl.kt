@@ -36,7 +36,7 @@ class SpaceShipServiceImpl : SpaceShipService {
             logger.info { "Trying to get spaceship from DB by id: $id" }
             val spaceshipFromDB = repository.findById(id).get()
             memcachedService.pushKeyValue(spaceshipFromDB.id.toString(), spaceshipFromDB)
-            logger.info { "Successfully got spaceship from PostgreSQL: $spaceship" }
+            logger.info { "Successfully got spaceship from PostgreSQL: $spaceshipFromDB" }
             return spaceshipFromDB
         }
 
