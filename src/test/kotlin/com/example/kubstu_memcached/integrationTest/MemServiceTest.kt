@@ -1,7 +1,8 @@
-package com.example.kubstu_memcached
+package com.example.kubstu_memcached.integrationTest
 
 import com.example.kubstu_memcached.services.MemService
-import org.junit.jupiter.api.Assertions.*
+import io.kotest.assertions.assertSoftly
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -24,15 +25,18 @@ class MemServiceTest {
         val value = "myValue"
 
         memService.pushKeyValue(key, value)
-        val fetchedValue: String = memService.getValueFromKey(key) as String
+        val fetchedValue: String = memService.getValueByKey(key) as String
 
-        assertEquals(value, fetchedValue)
+        assertSoftly {
+            fetchedValue shouldBe value
+        }
     }
 
     @Test
     fun `try to get not existing value test`() {
-        // return null value
-        assertNull(memService.getValueFromKey("qwerty"))
+        assertSoftly {
+            memService.getValueByKey("qwerty") shouldBe null
+        }
     }
 
     @Test
@@ -41,14 +45,17 @@ class MemServiceTest {
         val value = "myValue"
 
         memService.pushKeyValue(key, value)
-        val fetchedValue: String = memService.getValueFromKey(key) as String
-        assertEquals(value, fetchedValue)
+        val fetchedValue: String = memService.getValueByKey(key) as String
 
         val deleteResult = memService.deleteValueFromCache(key)
-        assertTrue(deleteResult)
 
-        val deletedValue = memService.getValueFromKey(key)
-        assertNull(deletedValue)
+        val deletedValue = memService.getValueByKey(key)
+
+        assertSoftly {
+            fetchedValue shouldBe value
+            deleteResult shouldBe true
+            deletedValue shouldBe null
+        }
     }
 
     @Test
@@ -61,15 +68,16 @@ class MemServiceTest {
         memService.pushKeyValue(key1, value1)
         memService.pushKeyValue(key2, value2)
 
-        val fetchedValue1: String = memService.getValueFromKey(key1) as String
-        val fetchedValue2: String = memService.getValueFromKey(key2) as String
-
-        assertEquals(value1, fetchedValue1)
-        assertEquals(value2, fetchedValue2)
+        val fetchedValue1: String = memService.getValueByKey(key1) as String
+        val fetchedValue2: String = memService.getValueByKey(key2) as String
 
         memService.clearCache()
 
-        assertNull(memService.getValueFromKey(key1))
-        assertNull(memService.getValueFromKey(key2))
+        assertSoftly {
+            fetchedValue1 shouldBe value1
+            fetchedValue2 shouldBe value2
+            memService.getValueByKey(key1) shouldBe null
+            memService.getValueByKey(key2) shouldBe null
+        }
     }
 }
