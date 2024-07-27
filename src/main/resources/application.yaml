@@ -15,6 +15,9 @@ spring:
     properties:
       hibernate:
         format-sql: true
+  output:
+    ansi:
+      enabled: ALWAYS
 
 app:
   cache:
